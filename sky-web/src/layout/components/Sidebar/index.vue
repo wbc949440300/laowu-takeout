@@ -13,12 +13,12 @@
       /> -->
       <div v-if="!isCollapse"
            class="sidebar-logo">
-        <img src="@/assets/login/logo.png"
+        <img src="@/assets/login/logo.svg"
              style="width: 120px; height: 31px">
       </div>
       <div v-else
            class="sidebar-logo-mini">
-        <img src="@/assets/login/mini-logo.png">
+        <img src="@/assets/login/mini-logo.svg">
       </div>
     </div>
     <el-scrollbar wrap-class="scrollbar-wrapper">

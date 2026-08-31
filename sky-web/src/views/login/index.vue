@@ -6,11 +6,11 @@
         <el-form ref="loginForm" :model="loginForm" :rules="loginRules">
           <div class="login-form-title">
             <img
-              src="@/assets/login/icon_logo.png"
+              src="@/assets/login/logo.svg"
               style="width: 149px; height: 38px"
               alt=""
             />
-            <!-- <span class="title-label">苍穹外卖</span> -->
+            <!-- <span class="title-label">老吴外卖</span> -->
           </div>
           <el-form-item prop="username">
             <el-input

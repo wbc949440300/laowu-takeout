@@ -1,7 +1,7 @@
 import json, httpx
 
 # Apifox exported doc (user-side)
-with open(r"c:\Users\wbc94\Desktop\苍穹外卖-用户端接口.openapi.json", encoding="utf-8") as f:
+with open(r"c:\Users\wbc94\Desktop\老吴外卖-用户端接口.openapi.json", encoding="utf-8") as f:
     af = json.load(f)
 af_paths = set(af.get("paths", {}).keys())
 
