@@ -192,6 +192,16 @@ cd ..\..\sky-web
 npm run build
 ```
 
+## 项目截图
+
+管理后台真实运行截图（本地启动后登录拍摄，页面数据为测试库中的真实订单与菜品）：
+
+![管理后台工作台](docs/images/admin-dashboard.png)
+
+![订单管理](docs/images/admin-orders.png)
+
+![菜品管理](docs/images/admin-dish.png)
+
 ## 开源基线声明
 
 本项目的基础业务框架来自黑马程序员《苍穹外卖》公开教学项目，课程骨架部分不声称为个人原创；在课程基础上的扩展为个人独立完成：
