@@ -13,6 +13,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -37,7 +38,7 @@ class OrderTimelineServiceTest {
     void returnsTimelineForExistingOrder() {
         Long orderId = 42L;
         Orders order = Orders.builder().id(orderId).build();
-        List<OrderTimeline> timeline = List.of(
+        List<OrderTimeline> timeline = Arrays.asList(
                 OrderTimeline.builder().orderId(orderId).eventType(OrderTimeline.PLACED).build(),
                 OrderTimeline.builder().orderId(orderId).eventType(OrderTimeline.PAID).build()
         );
