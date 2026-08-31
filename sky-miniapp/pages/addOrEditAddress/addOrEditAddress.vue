@@ -334,7 +334,7 @@ export default {
 				height: 110rpx;
 				line-height: 110rpx;
 			}
-			::v-deep .uni-place{
+			/deep/ .uni-place{
 				font-size: 26rpx;
 				font-family: PingFangSC, PingFangSC-Regular;
 				font-weight: 400;
@@ -407,7 +407,7 @@ export default {
 			padding: 20rpx 22rpx;
 			width: 100%;
 			box-sizing: border-box;
-			::v-deep .uni-place{
+			/deep/ .uni-place{
 				font-size: 26rpx;
 				font-family: PingFangSC, PingFangSC-Regular;
 				font-weight: 400;

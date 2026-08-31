@@ -107,11 +107,7 @@ export default {
 			return orderData
 		},
 		ht: function () {
-			try {
-				return uni.getMenuButtonBoundingClientRect().top + uni.getMenuButtonBoundingClientRect().height + 7
-			} catch (e) {
-				return 7
-			}
+			return uni.getMenuButtonBoundingClientRect().top + uni.getMenuButtonBoundingClientRect().height + 7
 		}
 	},
 	components: { navBar },
@@ -122,7 +118,7 @@ export default {
 			} 
 		})
 		if (options) {
-			if (!options.status && !options.formOrder && !uni.getStorageSync('sky_token')) {
+			if (!options.status && !options.formOrder) {
 				this.getData()
 			}
 		}
@@ -211,8 +207,7 @@ export default {
 			})
 		},
 		getData () {
-			let res = { height: 0 }
-			try { res = wx.getMenuButtonBoundingClientRect() } catch (e) {}
+			let res = wx.getMenuButtonBoundingClientRect()
 			let _this = this
 			this.selectHeight = res.height
 			uni.showModal({

@@ -137,7 +137,7 @@
 		<view class="pop_mask " v-show="openMoreNormPop">
 			<view class="more_norm_pop">
 				<view class="title">
-					{{moreNormDishdata && moreNormDishdata.name}}
+					{{moreNormDishdata.name}}
 				</view>
         <scroll-view class="items_cont" scroll-y="true" scroll-top="0rpx">
           <!-- <view class="items_cont"> -->
@@ -155,13 +155,13 @@
 					<view class="price">
 						 <text class="ico"> ￥ </text> {{((moreNormDishdata && moreNormDishdata.price) || 0).toFixed(2)}}
 					</view>
-					<view class="active" v-if="moreNormDishdata && moreNormDishdata.dishNumber && moreNormDishdata.dishNumber > 0">
+					<view class="active" v-if="moreNormDishdata.dishNumber && moreNormDishdata.dishNumber > 0">
 						<image src="../../static/btn_red.png"  @click="redDishAction(moreNormDishdata, '普通')" class="dish_red" mode=""></image>
 						<text class="dish_number">{{moreNormDishdata.dishNumber}}</text>
 						<!-- <text class="dish_number">{{item.newCardNumber}}</text> -->
 						<image src="../../static/btn_add.png" class="dish_add" @click="addDishAction(moreNormDishdata, '普通')" mode=""></image>
 					</view>
-					<view class="active" v-else-if="moreNormDishdata && moreNormDishdata.dishNumber == 0">
+					<view class="active" v-else-if="moreNormDishdata.dishNumber == 0">
 						<view class="dish_card_add" @click="addDishAction(moreNormDishdata, '普通')"> 加入购物车 </view>
 					</view>
 				</view>
