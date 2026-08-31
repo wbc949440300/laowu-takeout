@@ -92,18 +92,17 @@ npm run build
 - 用户：“有什么招牌菜” -> 价格和库存来自后端实际菜品接口。
 - 管理员查询报表 -> `/admin/report-agent/query`，仅允许固定只读指标和有限日期范围。
 
-## 安全说明
+## 安全设计
 
-不要提交任何 `.env`、模型 Key、微信 Secret、JWT Secret、数据库密码、`target/`、`node_modules/` 或本地日志。发布前执行：
+- 用户与管理员使用独立的 JWT 体系，接口按角色分别校验。
+- 会话与订单的归属由后端确认，Agent 无法越权访问他人数据。
+- 取消订单、退款等高风险操作必须经过确认节点，用户拒绝时不会执行写操作。
+- 内部服务接口（`/internal/**`）独立鉴权；示例配置中的密钥均为占位符，真实凭证通过环境变量注入，不入库。
 
-```powershell
-rg -n --hidden -g '!**/node_modules/**' -g '!**/target/**' -g '!**/.venv/**' -g '!**/.env.example' '(sk-[A-Za-z0-9]|DEEPSEEK_API_KEY=.+|SECRET=.+|PASSWORD=.+)'
-```
+## 后续方向
 
-示例配置只保留占位符；真实密钥即使曾经暴露，也应先吊销并重新生成，再公开仓库。
+- checkpoint 存储从 SQLite 演进到 PostgreSQL/Redis 多实例，支撑横向扩展。
+- 引入生产级监控告警与灰度发布流程。
+- Agent 能力扩展：更多业务工具、更细粒度的权限控制。
 
-## 当前范围与后续方向
-
-这是一个求职展示项目，已优先完成可演示、可测试、可解释的工程能力。PostgreSQL/Redis 多实例 checkpoint、生产级告警、灰度发布等属于商业化部署阶段，可在有实际流量和运维需求时再做，不应阻塞作品集发布。
-
-详见 [求职版功能取舍](sky-take-out/docs/求职版功能取舍.md)、[P2 实施状态](sky-take-out/docs/P2实施状态.md)、[剩余步骤](sky-take-out/docs/剩余步骤.md) 和 [Agent 升级计划](sky-take-out/docs/agent-upgrade-plan.md)。
+完整的启动步骤与全链路验收记录见 [完整启动与全链路验收](sky-take-out/docs/完整启动与全链路验收.md)。
