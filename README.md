@@ -204,13 +204,12 @@ npm run build
 
 用户端小程序（uni-app 编译为 H5 后本地连接真实后端与 AI 客服服务拍摄，分类、菜品、购物车、地址均为数据库真实数据）：
 
-![小程序点餐首页](docs/images/miniapp-home.png)
-
-![规格选择](docs/images/miniapp-spec.png)
-
-![提交订单](docs/images/miniapp-order.png)
-
-![AI 客服对话](docs/images/miniapp-chat.png)
+<p align="center">
+  <img src="docs/images/miniapp-home.png" width="240" alt="小程序点餐首页" />
+  <img src="docs/images/miniapp-spec.png" width="240" alt="规格选择" />
+  <img src="docs/images/miniapp-order.png" width="240" alt="提交订单" />
+  <img src="docs/images/miniapp-chat.png" width="240" alt="AI 客服对话" />
+</p>
 
 ## 开源基线声明
 
