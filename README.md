@@ -202,6 +202,16 @@ npm run build
 
 ![菜品管理](docs/images/admin-dish.png)
 
+用户端小程序（uni-app 编译为 H5 后本地连接真实后端与 AI 客服服务拍摄，分类、菜品、购物车、地址均为数据库真实数据）：
+
+![小程序点餐首页](docs/images/miniapp-home.png)
+
+![规格选择](docs/images/miniapp-spec.png)
+
+![提交订单](docs/images/miniapp-order.png)
+
+![AI 客服对话](docs/images/miniapp-chat.png)
+
 ## 开源基线声明
 
 本项目的基础业务框架来自黑马程序员《苍穹外卖》公开教学项目，课程骨架部分不声称为个人原创；在课程基础上的扩展为个人独立完成：

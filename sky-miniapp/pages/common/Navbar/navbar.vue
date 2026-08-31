@@ -26,8 +26,12 @@ export default {
 		// 	return num
 		// }
 		ht: function () {
-			let res = uni.getMenuButtonBoundingClientRect() 
-			return res.top +5
+			try {
+				let res = uni.getMenuButtonBoundingClientRect() 
+				return res.top +5
+			} catch (e) {
+				return 5
+			}
 		}
 	},
 	methods: {

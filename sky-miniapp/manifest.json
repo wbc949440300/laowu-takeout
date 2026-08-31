@@ -1,6 +1,6 @@
 {
-	"vueVersion": "2",
-    "name" : "object-czg-wexin-uniapp-java",
+    "vueVersion" : "2",
+    "name" : "老吴外卖",
     "appid" : "__UNI__43209E9",
     "description" : "",
     "versionName" : "1.0.0",
@@ -71,7 +71,7 @@
         "enable" : false
     },
     "h5" : {
-        "title" : "object-czg-wexin-uniapp-java",
+        "title" : "老吴外卖",
         "domain" : "/"
     }
 }
