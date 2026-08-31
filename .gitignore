@@ -1,0 +1,36 @@
+# Local secrets and environment files
+**/.env
+**/.env.*
+!**/.env.example
+
+# Python
+**/.venv/
+**/__pycache__/
+**/*.py[cod]
+**/.pytest_cache/
+**/*.db
+**/*.db-*
+**/*.log
+
+# Java / Maven
+**/target/
+
+# Node / Vue
+**/node_modules/
+**/dist/
+**/coverage/
+**/.nyc_output/
+
+# IDE and OS files
+.idea/
+*.iml
+.vscode/
+.DS_Store
+Thumbs.db
+
+# uni-app / HBuilderX build artifacts and editor config
+**/unpackage/
+**/.hbuilderx/
+
+# Generated reports and local exports
+**/report.*.json

@@ -1,0 +1,35 @@
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+sky:
+  datasource:
+    host: ${SKY_DATASOURCE_HOST:}
+    port: ${SKY_DATASOURCE_PORT:3306}
+    database: ${SKY_DATASOURCE_DATABASE:sky_take_out}
+    username: ${SKY_DATASOURCE_USERNAME:}
+    password: ${SKY_DATASOURCE_PASSWORD:}
+  redis:
+    host: ${SKY_REDIS_HOST:}
+    port: ${SKY_REDIS_PORT:6379}
+    password: ${SKY_REDIS_PASSWORD:}
+    database: ${SKY_REDIS_DATABASE:10}
+  jwt:
+    admin-secret-key: ${SKY_JWT_ADMIN_SECRET:}
+    user-secret-key: ${SKY_JWT_USER_SECRET:}
+  internal:
+    key: ${SKY_INTERNAL_KEY:}
+    allowed-ips: ${SKY_INTERNAL_ALLOWED_IPS:}
+  wechat:
+    appid: ${SKY_WECHAT_APPID:}
+    secret: ${SKY_WECHAT_SECRET:}
+    mchid: ${SKY_WECHAT_MCHID:}
+    mchSerialNo: ${SKY_WECHAT_MCH_SERIAL_NO:}
+    privateKeyFilePath: ${SKY_WECHAT_PRIVATE_KEY_FILE:}
+    apiV3Key: ${SKY_WECHAT_API_V3_KEY:}
+    weChatPayCertFilePath: ${SKY_WECHAT_CERT_FILE:}
+    notifyUrl: ${SKY_WECHAT_NOTIFY_URL:}
+    refundNotifyUrl: ${SKY_WECHAT_REFUND_NOTIFY_URL:}
+    mock-login: false
+    mock-payment: false

@@ -1,0 +1,7 @@
+# 密钥与本地环境，绝不入库
+.env
+.venv/
+__pycache__/
+*.pyc
+checkpoints.db
+.pytest_cache/

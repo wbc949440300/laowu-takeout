@@ -1,0 +1,93 @@
+server:
+  port: 8080
+
+spring:
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:dev}
+  main:
+    allow-circular-references: true
+  datasource:
+    druid:
+      driver-class-name: ${sky.datasource.driver-class-name}
+      url: jdbc:mysql://${sky.datasource.host}:${sky.datasource.port}/${sky.datasource.database}?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
+      username: ${sky.datasource.username}
+      password: ${sky.datasource.password}
+  redis:
+    host: ${sky.redis.host}
+    port: ${sky.redis.port}
+    password: ${sky.redis.password}
+    database: ${sky.redis.database}
+
+mybatis:
+  #mapper配置文件
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.sky.entity
+  configuration:
+    #开启驼峰命名
+    map-underscore-to-camel-case: true
+
+logging:
+  #控制台日志格式带 traceId，配合 TraceIdFilter 实现链路追踪（跨服务可由 X-Trace-Id 头透传）
+  pattern:
+    console: "%d{HH:mm:ss.SSS} [%thread] [%X{traceId}] %-5level %logger{36} - %msg%n"
+  level:
+    com:
+      sky:
+        mapper: debug
+        service: info
+        controller: info
+
+sky:
+  jwt:
+    # 设置jwt签名加密时使用的秘钥
+    admin-secret-key: ${SKY_JWT_ADMIN_SECRET:}
+    # 设置jwt过期时间
+    admin-ttl: 7200000
+    # 设置前端传递过来的令牌名称
+    admin-token-name: token
+    user-secret-key: ${SKY_JWT_USER_SECRET:}
+    user-ttl: 7200000
+    user-token-name: authentication
+    issuer: ${SKY_JWT_ISSUER:sky-take-out}
+    admin-audience: ${SKY_JWT_ADMIN_AUDIENCE:sky-admin}
+    user-audience: ${SKY_JWT_USER_AUDIENCE:sky-user}
+  alioss:
+    endpoint: ${sky.alioss.endpoint}
+    access-key-id: ${sky.alioss.access-key-id}
+    access-key-secret: ${sky.alioss.access-key-secret}
+    bucket-name: ${sky.alioss.bucket-name}
+  wechat:
+    appid: ${sky.wechat.appid}
+    secret: ${sky.wechat.secret}
+    mchid : ${sky.wechat.mchid}
+    mchSerialNo: ${sky.wechat.mchSerialNo}
+    privateKeyFilePath: ${sky.wechat.privateKeyFilePath}
+    apiV3Key: ${sky.wechat.apiV3Key}
+    weChatPayCertFilePath: ${sky.wechat.weChatPayCertFilePath}
+    notifyUrl: ${sky.wechat.notifyUrl}
+    refundNotifyUrl: ${sky.wechat.refundNotifyUrl}
+    # 生产默认关闭 Mock；开发 profile 单独开启。
+    mock-login: false
+    mock-payment: false
+  shop:
+    address: 北京市海淀区上地十街10号
+    # 营业时段（24小时制，支持跨天时段）
+    open-time: "08:00"
+    close-time: "22:00"
+    # 配送范围校验开关（需配置有效百度地图 ak 后开启）
+    range-check:
+      enabled: false
+  baidu:
+    ak: your-ak
+  # 内部服务接口（/internal/**）鉴权密钥，供 sky-agent 等内部系统调用；生产建议换强随机值并叠加 IP 白名单
+  internal:
+    key: ${SKY_INTERNAL_KEY:}
+    allowed-ips: ${SKY_INTERNAL_ALLOWED_IPS:}
+  # 支付宝支付（P1-7）：填写应用凭证后 payMethod=2 可用；沙箱环境在 open.alipay.com 申请
+  alipay:
+    appId: your-alipay-app-id
+    privateKey: your-app-private-key
+    alipayPublicKey: your-alipay-public-key
+    gatewayUrl: https://openapi.alipaydev.com/gateway.do
+    notifyUrl: https://your-domain/notify/alipaySuccess
+    returnUrl: https://your-domain/pay/result

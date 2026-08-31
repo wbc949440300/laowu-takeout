@@ -1,0 +1,36 @@
+sky:
+  jwt:
+    admin-secret-key: ${SKY_JWT_ADMIN_SECRET:dev-admin-jwt-secret-change-before-production-2026}
+    user-secret-key: ${SKY_JWT_USER_SECRET:dev-user-jwt-secret-change-before-production-2026}
+  internal:
+    key: ${SKY_INTERNAL_KEY:dev-internal-service-key-change-before-production-2026}
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    host: localhost
+    port: 3306
+    database: sky_take_out
+    username: root
+    password: 123456
+  alioss:
+    endpoint: oss-cn-beijing.aliyuncs.com
+    access-key-id: your-access-key-id
+    access-key-secret: your-access-key-secret
+    bucket-name: your-bucket-name
+  redis:
+    host: localhost
+    port: 6379
+    password: 123456
+    database: 10
+  wechat:
+    appid: ${SKY_WECHAT_APPID:your-wechat-appid}
+    secret: ${SKY_WECHAT_SECRET:your-wechat-secret}
+    mchid : ${SKY_WECHAT_MCHID:your-wechat-mchid}
+    mchSerialNo: ${SKY_WECHAT_MCH_SERIAL_NO:your-wechat-mch-serial-no}
+    privateKeyFilePath: ${SKY_WECHAT_PRIVATE_KEY_FILE:}
+    apiV3Key: ${SKY_WECHAT_API_V3_KEY:your-wechat-api-v3-key}
+    weChatPayCertFilePath: ${SKY_WECHAT_CERT_FILE:}
+    notifyUrl: ${SKY_WECHAT_NOTIFY_URL:http://localhost:8080/notify/paySuccess}
+    refundNotifyUrl: ${SKY_WECHAT_REFUND_NOTIFY_URL:http://localhost:8080/notify/refundSuccess}
+    # 仅开发环境允许 Mock，生产配置不会继承此 profile。
+    mock-login: true
+    mock-payment: true

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>老吴外卖 · 智能客服</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: "Microsoft YaHei", sans-serif; background: #f5f6fa; height: 100vh; display: flex; flex-direction: column; }
+  header { background: #2c3e50; color: #fff; padding: 12px 20px; display: flex; align-items: center; gap: 12px; }
+  header h1 { font-size: 17px; font-weight: 600; }
+  header .status { font-size: 12px; color: #9fd8a0; }
+  #token-bar { background: #fff; border-bottom: 1px solid #e5e7eb; padding: 8px 20px; display: flex; gap: 8px; align-items: center; }
+  #token-bar label { font-size: 12px; color: #666; white-space: nowrap; }
+  #token { flex: 1; font-size: 12px; padding: 6px 10px; border: 1px solid #d1d5db; border-radius: 6px; }
+  #token-bar button { font-size: 12px; padding: 6px 12px; border: none; border-radius: 6px; background: #eee; cursor: pointer; }
+  #chat { flex: 1; overflow-y: auto; padding: 16px 20px; display: flex; flex-direction: column; gap: 12px; }
+  .msg { max-width: 75%; padding: 10px 14px; border-radius: 12px; font-size: 14px; line-height: 1.6; white-space: pre-wrap; word-break: break-word; }
+  .user { align-self: flex-end; background: #3b82f6; color: #fff; border-bottom-right-radius: 4px; }
+  .bot { align-self: flex-start; background: #fff; border: 1px solid #e5e7eb; border-bottom-left-radius: 4px; }
+  .bot .tag { font-size: 11px; color: #9ca3af; margin-bottom: 4px; }
+  .confirm-box { align-self: flex-start; background: #fef3c7; border: 1px solid #fcd34d; border-radius: 12px; padding: 12px 14px; font-size: 13px; }
+  .confirm-box .btns { margin-top: 10px; display: flex; gap: 8px; }
+  .confirm-box button { padding: 6px 16px; border: none; border-radius: 6px; cursor: pointer; font-size: 13px; }
+  .confirm-box .yes { background: #ef4444; color: #fff; }
+  .confirm-box .no { background: #e5e7eb; }
+  footer { background: #fff; border-top: 1px solid #e5e7eb; padding: 12px 20px; display: flex; gap: 8px; }
+  #input { flex: 1; padding: 10px 14px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 14px; outline: none; }
+  #input:focus { border-color: #3b82f6; }
+  #send { padding: 10px 24px; background: #3b82f6; color: #fff; border: none; border-radius: 8px; cursor: pointer; font-size: 14px; }
+  #send:disabled { background: #93c5fd; cursor: not-allowed; }
+  .quick { display: flex; gap: 8px; padding: 8px 20px 0; flex-wrap: wrap; }
+  .quick span { font-size: 12px; color: #6b7280; background: #eef2ff; padding: 4px 10px; border-radius: 999px; cursor: pointer; }
+</style>
+</head>
+<body>
+<header>
+  <h1>🛵 老吴外卖 · 智能客服</h1>
+  <span class="status" id="health">连接中...</span>
+</header>
+
+<div id="token-bar">
+  <label>用户令牌</label>
+  <input id="token" placeholder="粘贴 JwtGenTest 生成的 authentication 令牌">
+  <button onclick="saveToken()">保存</button>
+</div>
+
+<div id="chat">
+  <div class="msg bot"><div class="tag">客服</div>您好，我是老吴外卖智能客服，可以帮您查订单、催单、退款、推荐菜品～</div>
+</div>
+
+<div class="quick">
+  <span onclick="quickAsk(this)">我的订单到哪了</span>
+  <span onclick="quickAsk(this)">有什么招牌菜</span>
+  <span onclick="quickAsk(this)">退款多久到账</span>
+  <span onclick="quickAsk(this)">帮我催一下订单</span>
+  <span onclick="quickAsk(this)">帮我取消订单</span>
+</div>
+
+<footer>
+  <input id="input" placeholder="输入问题，回车发送…" onkeydown="if(event.key==='Enter')send()">
+  <button id="send" onclick="send()">发送</button>
+</footer>
+
+<script>
+let threadId = null;
+const chat = document.getElementById('chat');
+const tokenInput = document.getElementById('token');
+
+tokenInput.value = localStorage.getItem('sky_agent_token') || '';
+
+function saveToken() {
+  localStorage.setItem('sky_agent_token', tokenInput.value.trim());
+  alert('令牌已保存');
+}
+function quickAsk(el) {
+  document.getElementById('input').value = el.textContent;
+  send();
+}
+function addMsg(role, text, tag) {
+  const div = document.createElement('div');
+  div.className = 'msg ' + role;
+  if (role === 'bot' && tag) div.innerHTML = '<div class="tag">' + tag + '</div>';
+  div.appendChild(document.createTextNode(text));
+  chat.appendChild(div);
+  chat.scrollTop = chat.scrollHeight;
+  return div;
+}
+
+async function post(payload) {
+  const token = tokenInput.value.trim() || localStorage.getItem('sky_agent_token') || '';
+  if (!token) { alert('请先粘贴用户令牌（JwtGenTest 生成）'); throw new Error('no token'); }
+  const resp = await fetch('/agent/chat', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'authentication': token },
+    body: JSON.stringify(payload)
+  });
+  if (resp.status === 401) { alert('令牌无效或已过期：请重新运行 JwtGenTest 生成'); throw new Error('401'); }
+  return resp.json();
+}
+
+function showConfirm(payload) {
+  const box = document.createElement('div');
+  box.className = 'confirm-box';
+  const info = payload.interrupt || {};
+  box.innerHTML = '⚠️ 高危操作确认：<b>' + (info.action || '') + '</b> ' +
+    JSON.stringify(info.args || {}) +
+    '<div class="btns"><button class="yes">确认执行</button><button class="no">取消</button></div>';
+  box.querySelector('.yes').onclick = () => { box.remove(); resume(true); };
+  box.querySelector('.no').onclick = () => { box.remove(); resume(false); };
+  chat.appendChild(box);
+  chat.scrollTop = chat.scrollHeight;
+}
+
+async function resume(approved) {
+  addMsg('user', approved ? '✅ 确认执行' : '❌ 放弃操作');
+  const sendBtn = document.getElementById('send');
+  sendBtn.disabled = true;
+  try {
+    const data = await post({ thread_id: threadId, resume: approved });
+    handleReply(data);
+  } catch (e) { /* 已提示 */ }
+  sendBtn.disabled = false;
+}
+
+function handleReply(data) {
+  if (data.thread_id) threadId = data.thread_id;
+  if (data.type === 'confirm') {
+    showConfirm(data);
+  } else if (data.type === 'reply') {
+    addMsg('bot', data.answer || '（无回复）', '客服');
+  } else {
+    addMsg('bot', '出错了：' + (data.msg || JSON.stringify(data)), '系统');
+  }
+}
+
+async function send() {
+  const input = document.getElementById('input');
+  const text = input.value.trim();
+  if (!text) return;
+  input.value = '';
+  addMsg('user', text);
+  const sendBtn = document.getElementById('send');
+  sendBtn.disabled = true;
+  try {
+    const data = await post({ message: text, thread_id: threadId });
+    handleReply(data);
+  } catch (e) { /* 已提示 */ }
+  sendBtn.disabled = false;
+  input.focus();
+}
+
+// 健康检查
+fetch('/health').then(r => r.json()).then(d => {
+  document.getElementById('health').textContent = d.status === 'ok' ? '● 服务正常' : '● 服务异常';
+}).catch(() => {
+  const el = document.getElementById('health');
+  el.textContent = '● 服务不可用';
+  el.style.color = '#f88';
+});
+</script>
+</body>
+</html>

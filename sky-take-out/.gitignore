@@ -1,0 +1,10 @@
+.env
+*.log
+.idea/
+**/target/
+**/.venv/
+**/__pycache__/
+**/*.pyc
+**/.pytest_cache/
+sky-agent/checkpoints.db*
+
