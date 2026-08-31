@@ -192,16 +192,6 @@ cd ..\..\sky-web
 npm run build
 ```
 
-## 项目截图
-
-小程序用户端界面设计：
-
-| 首页 | 菜品列表 | 订单详情 |
-| --- | --- | --- |
-| ![小程序首页](sky-miniapp/design/index.png) | ![菜品列表](sky-miniapp/design/dish.png) | ![订单详情](sky-miniapp/design/detail.png) |
-
-![小程序交互演示](sky-miniapp/design/action.gif)
-
 ## 开源基线声明
 
 本项目的基础业务框架来自黑马程序员《苍穹外卖》公开教学项目，课程骨架部分不声称为个人原创；在课程基础上的扩展为个人独立完成：
