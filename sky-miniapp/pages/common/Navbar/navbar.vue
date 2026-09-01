@@ -26,8 +26,13 @@ export default {
 		// 	return num
 		// }
 		ht: function () {
-			let res = uni.getMenuButtonBoundingClientRect() 
-			return res.top +5
+			// #ifdef H5
+			return 5
+			// #endif
+			const menuButton = typeof uni.getMenuButtonBoundingClientRect === 'function'
+				? uni.getMenuButtonBoundingClientRect()
+				: null
+			return (menuButton?.top || 0) + 5
 		}
 	},
 	methods: {

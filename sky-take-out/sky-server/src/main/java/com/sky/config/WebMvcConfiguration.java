@@ -6,12 +6,15 @@ import com.sky.interceptor.JwtTokenUserInterceptor;
 import com.sky.json.JacksonObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
+import org.springframework.core.env.Profiles;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -36,6 +39,22 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
     private JwtTokenUserInterceptor jwtTokenUserInterceptor;
     @Autowired
     private InternalAuthInterceptor internalAuthInterceptor;
+    @Autowired
+    private Environment environment;
+
+    /**
+     * 仅本地开发环境允许浏览器 H5 预览跨域访问。生产环境不注册该规则。
+     */
+    @Override
+    protected void addCorsMappings(CorsRegistry registry) {
+        if (environment.acceptsProfiles(Profiles.of("!prod"))) {
+            registry.addMapping("/**")
+                    .allowedOriginPatterns("http://localhost:*", "http://127.0.0.1:*")
+                    .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                    .allowedHeaders("*")
+                    .maxAge(3600);
+        }
+    }
 
     /**
      * 注册自定义拦截器

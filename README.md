@@ -56,7 +56,20 @@
   </tr>
 </table>
 
-> 小程序真机页面需要 HBuilderX/微信开发者工具运行；当前仓库只保留后台真实运行截图，避免把平台兼容报错或叠加状态截图作为项目成品。
+### 顾客端（uni-app H5 本地运行）
+
+顾客端截图来自本地 H5 构建和测试数据库，覆盖首页浏览、订单确认和 AI 客服问答三个独立状态；微信小程序真机运行需要合法 AppID 和开发者工具权限。
+
+<table>
+  <tr>
+    <td width="50%"><img src="docs/images/miniapp-home.png" alt="顾客端首页"><br><sub>首页：分类、真实菜品、价格和购物车状态</sub></td>
+    <td width="50%"><img src="docs/images/miniapp-checkout.png" alt="顾客端提交订单"><br><sub>提交订单：地址、订单明细、备注和 Mock 支付入口</sub></td>
+  </tr>
+  <tr>
+    <td width="50%"><img src="docs/images/miniapp-ai-chat.png" alt="顾客端 AI 客服"><br><sub>AI 客服：欢迎语与真实订单查询结果</sub></td>
+    <td width="50%"></td>
+  </tr>
+</table>
 
 ## 我做了什么
 

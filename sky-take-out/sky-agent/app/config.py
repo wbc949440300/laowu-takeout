@@ -28,7 +28,7 @@ class Settings(BaseSettings):
     agent_environment: str = "dev"
 
     # 逗号分隔的跨域白名单。开发环境可使用 *，生产环境必须配置明确域名。
-    cors_origins: str = "http://localhost:8081,http://127.0.0.1:8081,http://localhost:8888,http://127.0.0.1:8888"
+    cors_origins: str = "http://localhost:8081,http://127.0.0.1:8081,http://localhost:8091,http://127.0.0.1:8091,http://localhost:8888,http://127.0.0.1:8888"
 
     agent_port: int = 8000
     max_input_chars: int = 4000

@@ -6,7 +6,7 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
 	state: {
 		storeInfo: {}, // 店铺请求的id信息
-		shopInfo:'',  // 店铺详细信息
+		shopInfo:{},  // 店铺详细信息
 		orderListData:[] ,// 购物车列表信息
 		baseUserInfo: '', // 存储获取的用户微信的信息（用户名、头像）
 		lodding: false,

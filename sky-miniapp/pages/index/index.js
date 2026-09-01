@@ -56,10 +56,10 @@ export default {
 			openMoreNormPop: false,
 			moreNormDataes: null,
 			tableInfo:null,
-			moreNormDishdata:null,
-			moreNormdata:null,
+			moreNormDishdata:{},
+			moreNormdata:[],
 			// 套餐中查询到的菜品名称
-			dishMealData:null,
+			dishMealData:[],
 			openTablePeoPleNumber: 1,
 			orderData: 0,
 			// 选中左侧菜品的索引
@@ -107,20 +107,24 @@ export default {
 			return orderData
 		},
 		ht: function () {
-			return uni.getMenuButtonBoundingClientRect().top + uni.getMenuButtonBoundingClientRect().height + 7
+			// #ifdef H5
+			return 7
+			// #endif
+			const menuButton = typeof uni.getMenuButtonBoundingClientRect === 'function'
+				? uni.getMenuButtonBoundingClientRect()
+				: null
+			return (menuButton?.top || 0) + (menuButton?.height || 0) + 7
 		}
 	},
 	components: { navBar },
-	onLoad (options) {
+	onLoad (options = {}) {
 		uni.onNetworkStatusChange(function(res) {
 			if (res.isConnected == false) {
 				uni.navigateTo({url: '/pages/nonet/index'})
 			} 
 		})
-		if (options) {
-			if (!options.status && !options.formOrder) {
-				this.getData()
-			}
+		if (!options.status && !options.formOrder) {
+			this.getData()
 		}
 		// 有sessionId免授权
 		// this.sessionId() && this.init()
@@ -207,9 +211,16 @@ export default {
 			})
 		},
 		getData () {
-			let res = wx.getMenuButtonBoundingClientRect()
+			// #ifdef H5
+			this.selectHeight = 0
+			this.loginWithCode('h5-preview')
+			return
+			// #endif
+			const menuButton = typeof uni.getMenuButtonBoundingClientRect === 'function'
+				? uni.getMenuButtonBoundingClientRect()
+				: null
 			let _this = this
-			this.selectHeight = res.height
+			this.selectHeight = menuButton?.height || 0
 			uni.showModal({
 				title: '温馨提示',
 				content: '亲，授权微信登录后才能正点餐！',
@@ -221,13 +232,7 @@ export default {
 							provider: 'weixin',
 							success: (loginRes) => {
 								if (loginRes.errMsg === 'login:ok') {
-									userLogin({ code: loginRes.code }).then(success => {
-										if (success.code === 1 && success.data && success.data.token) {
-											uni.setStorageSync('sky_token', success.data.token)
-											_this.init()
-										}
-									}).catch(err => {
-									})
+									_this.loginWithCode(loginRes.code)
 								}
 							}
 						})
@@ -258,6 +263,14 @@ export default {
 				}
 			})
 		}, 
+		loginWithCode (code) {
+			userLogin({ code }).then(success => {
+				if (success.code === 1 && success.data && success.data.token) {
+					uni.setStorageSync('sky_token', success.data.token)
+					this.init()
+				}
+			}).catch(() => {})
+		},
 		
 		async init () {
 			// 获取菜品和套餐分类接口
